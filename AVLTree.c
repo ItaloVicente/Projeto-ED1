@@ -23,11 +23,11 @@ int altura_ArvAVL(ArvAVL *raiz){
 }
 struct telefone *cria_telefone(int numero1, char *nome1, char *endereco1){
     struct telefone *telefone = (struct telefone*) malloc(sizeof(struct telefone));
+    if(telefone==NULL)
+        return NULL;
     telefone->numero=numero1;
     telefone->endereco=endereco1;
     telefone->nome=nome1;
-    if(telefone==NULL)
-        return 0;
     return telefone;
 }
 ArvAVL *cria_AVL(int DDD) {
@@ -47,19 +47,19 @@ ArvAVL *cria_AVL(int DDD) {
     }
     return raiz;
 }
-void libera_NO(struct NO* no){
-    if(no == NULL)
+void libera_NO(struct NO** no) {
+    if (*no == NULL)
         return;
-    libera_NO(no->esq);
-    libera_NO(no->dir);
-    free(no);
-    no=NULL;
+    libera_NO(&(*no)->esq);
+    libera_NO(&(*no)->dir);
+    free(*no);
+    *no = NULL;
 }
-void libera_ArvAVL(ArvAVL* raiz){
-    if(raiz==NULL)
+void libera_ArvAVL(ArvAVL* raiz) {
+    if (raiz == NULL)
         return;
-    libera_NO(*raiz);//libera cada nó
-    free(raiz);//libera a raiz
+    libera_NO(raiz);
+    free(raiz);
 }
 int fatorBalanceamento_NO(struct NO *no){
     return labs(alt_NO(no->esq)-alt_NO(no->dir));
@@ -134,9 +134,8 @@ void posOrdem_ArvAVL(ArvAVL *raiz){
 }
 int insere_ArvAVL(ArvAVL *raiz, struct telefone *valor){
     int res;
-    if(*raiz==NULL){//arvore vazia ou no vazio
-        struct NO *novo;
-        novo = (struct NO*) malloc(sizeof(struct NO));
+    if((*raiz)->dir==NULL&&(*raiz)->esq==NULL){//arvore vazia ou no vazio
+        struct NO *novo = (struct NO*) malloc(sizeof(struct NO));
         if(novo == NULL)
             return 0;
         novo->info=valor;

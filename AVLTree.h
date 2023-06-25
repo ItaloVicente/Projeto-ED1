@@ -17,7 +17,7 @@ int sugerirNumeroMaior(struct NO* atual);
 int sugerirNumeroMenor(struct NO* atual);
 ArvAVL *cria_AVL(int DDD);
 struct telefone *cria_telefone(int numero1, char *nome1, char *endereco1);
-void libera_NO(struct NO* no);
+void libera_NO(struct NO** no);
 void libera_ArvAVL(ArvAVL *raiz);
 int insere_ArvAVL(ArvAVL *raiz, struct telefone *valor);
 int remove_ArvAVL(ArvAVL *raiz, struct telefone *valor);
